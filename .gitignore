@@ -1,0 +1,6 @@
+# Fichier de variables d'environnement
+.env
+
+# Dossiers et fichiers temporaires de Python
+__pycache__/
+*.pyc
