@@ -1,6 +1,7 @@
 import os
 import requests
 from dotenv import load_dotenv
+import json
 
 # Charge les variables depuis le fichier .env
 load_dotenv()
@@ -36,6 +37,7 @@ def main():
         data = response.json()
         page_title = data["properties"]["title"]["title"][0]["plain_text"]
         print(f"✅ Connexion réussie ! Le titre de la page est : '{page_title}'")
+        print(json.dumps(data, indent=4))
     else:
         print(f"❌ Échec de la connexion. Statut : {response.status_code}")
         print("Réponse de l'API :", response.text)
