@@ -28,13 +28,13 @@ def get_today_tasks(database_id, token):
         "filter": {
             "and": [
                 {
-                    "property": "État", # Le nom de votre colonne de statut
+                    "property": "État", 
                     "status": {
-                        "equals": "À faire" # La valeur exacte du statut que vous voulez
+                        "equals": "À faire"
                     }
                 },
                 {
-                    "property": "Date", # Le nom de votre colonne de date
+                    "property": "Date", 
                     "date": {
                         "equals": today_iso
                     }
@@ -56,7 +56,7 @@ def get_today_tasks(database_id, token):
             print("✅ Voici vos tâches pour aujourd'hui :")
             for task in tasks:
                 # On extrait le nom de la tâche du JSON
-                task_name = task["properties"]["Nom"]["title"][0]["plain_text"]
+                # task_name = task["properties"]["Nom"]["title"][0]["plain_text"]
                 print(f"- {task_name}")
 
     else:
