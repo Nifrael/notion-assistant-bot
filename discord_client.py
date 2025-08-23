@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 load_dotenv()
 DISCORD_BOT_TOKEN = os.getenv("DISCORD_BOT_TOKEN")
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+MCP_SERVER_URL = os.getenv("MCP_SERVER_URL")
 
 genai.configure(api_key=GOOGLE_API_KEY)
 
@@ -38,7 +39,7 @@ def _get_gemini_response_sync(user_message):
 
 def _call_mcp_server_sync(tool_name):
     return requests.post(
-        'http://127.0.0.1:5000/execute-tool',
+        f'{MCP_SERVER_URL}/execute-tool',
         json={'tool_name': tool_name}
     )
 
