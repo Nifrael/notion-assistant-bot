@@ -1,8 +1,7 @@
-# Fichier .replit
-run = "python mcp_server.py & python discord_client_mcp.py"
+#!/bin/bash
 
-[interpreter]
-python3 = { path = "/usr/bin/python3", version = "3.11" }
+# Lancer le serveur MCP en arrière-plan avec Gunicorn
+gunicorn --bind 0.0.0.0:10000 mcp_server:app &
 
-[nix]
-channel = "stable-23_05"
+# Lancer le client Discord en premier plan
+python3 discord_client_mcp.py

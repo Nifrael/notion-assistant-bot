@@ -23,7 +23,9 @@ def execute_tool():
     else:
         return jsonify({"error": "Outil non trouvé"}), 404
 
-# On lance le serveur pour qu'il écoute en permanence
-if __name__ == '__main__':
-    # L'adresse 0.0.0.0 signifie qu'il est accessible depuis votre réseau local
-    app.run(host='0.0.0.0', port=5000)
+app = Flask(__name__)
+
+# # On lance le serveur pour qu'il écoute en permanence
+# if __name__ == '__main__':
+#     # L'adresse 0.0.0.0 signifie qu'il est accessible depuis votre réseau local
+#     app.run(host='0.0.0.0', port=5000)
