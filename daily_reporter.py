@@ -11,7 +11,7 @@ from bot_discord import _trier_taches, _creer_embeds_par_priorite
 load_dotenv()
 DISCORD_BOT_TOKEN = os.getenv("DISCORD_BOT_TOKEN")
 # L'ID du canal où le message doit être envoyé
-DISCORD_CHANNEL_ID = int(os.getenv("DISCORD_CANAL_ID"))
+DISCORD_CHANNEL_ID = os.getenv("DISCORD_CHANNEL_ID")
 
 # --- SCRIPT PRINCIPAL ---
 async def send_daily_report():
