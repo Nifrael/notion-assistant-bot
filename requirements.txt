@@ -4,3 +4,4 @@ discord.py
 Flask
 google-generativeai
 gunicorn
+pytz
