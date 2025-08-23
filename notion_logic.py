@@ -29,7 +29,7 @@ def get_today_tasks():
                 {
                     "property": "Date", 
                     "date": {
-                        "equals": str(date.today())
+                        "equals": today_iso
                     }
                 },
                 {
