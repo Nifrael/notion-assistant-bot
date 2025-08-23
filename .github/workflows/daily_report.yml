@@ -1,0 +1,24 @@
+name: Rapport de Tâches Quotidien
+
+on:
+  schedule:
+    - cron: '0 8 * * *'
+  workflow_dispatch: 
+
+jobs:
+  send_report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Installer les dépendances
+        run: pip install -r requirements.txt
+      - name: Exécuter le script de rapport
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          DATABASE_ID: ${{ secrets.DATABASE_ID }}
+          DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+          DISCORD_CHANNEL_ID: ${{ secrets.DISCORD_CHANNEL_ID }}
+        run: python daily_reporter.py
