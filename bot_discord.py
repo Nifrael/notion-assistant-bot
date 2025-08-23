@@ -60,34 +60,70 @@ def _creer_embeds_par_priorite(tasks_sorted):
 
     return embeds
 
-intents = discord.Intents.default()
-intents.message_content = True
-bot = discord.Client(intents=intents)
+def _add_list_task_to_embed(embed, category_title, tasks_dict):
+    status_en_cours = "🕑 En cours"
+    status_pas_commence = "📦 Pas commencé"
+    priority_order = ["🔥 Urgent", "⚠️ Important", "🏖️ Tranquille"]
+    value = ""
+    def _get_status_section(status_key, header_text, task_style):
+        nonlocal value
+        if tasks_dict.get(status_key):
+            if value: value += "\n"
+            value += f"**{header_text} :**\n"
+            for priority in priority_order:
+                if priority in tasks_dict[status_key]:
+                    tasks_str = "\n".join([f"{task_style} {t}" for t in tasks_dict[status_key][priority]])
+                    value += f"_{priority}_\n{tasks_str}\n"
 
-@bot.event
-async def on_ready():
-    print(f'Connecté en tant que {bot.user}')
+    _get_status_section(status_en_cours, "🕑 En cours", "**-**")
+    _get_status_section(status_pas_commence, "📦 À faire", "-")
+    
+    if value:
+        embed.add_field(name=f"--- {category_title} ---", value=value, inline=False)
 
-@bot.event
-async def on_message(message):
-    if message.author == bot.user:
-        return
+def _creer_embed_tableau_de_bord(tasks_sorted):
+    """Crée et retourne un SEUL embed Discord final."""
+    embed = discord.Embed(
+        title="Tableau de Bord du Jour",
+        description="Voici un aperçu de vos objectifs pour aujourd'hui.",
+        color=discord.Color.blue()
+    )
+    _add_list_task_to_embed(embed, "💼 Domaine Professionnel", tasks_sorted["pro"])
+    _add_list_task_to_embed(embed, "🏠 Domaine Personnel", tasks_sorted["perso"])
+    _add_list_task_to_embed(embed, "🎓 Autres Domaines", tasks_sorted["autres"])
 
-    if message.content == '!taches':
-        print("Commande !taches reçue...")
-        tasks_list_raw = get_today_tasks()
+    if not embed.fields:
+        embed.description = "Aucune tâche correspondante trouvée pour aujourd'hui."
+    return embed
 
-        if isinstance(tasks_list_raw, str):
-            embed = discord.Embed(title="❌ Erreur", description=tasks_list_raw, color=discord.Color.red())
-            await message.channel.send(embed=embed)
-        elif not tasks_list_raw:
-            embed = discord.Embed(title="🎉 Aucune tâche pour aujourd'hui !", color=discord.Color.green())
-            await message.channel.send(embed=embed)
-        else: 
-            tasks_sorted = _trier_taches(tasks_list_raw)
-            embeds = _creer_embeds_par_priorite(tasks_sorted)
-            for embed in embeds:
-                    await message.channel.send(embed=embed)
+# intents = discord.Intents.default()
+# intents.message_content = True
+# bot = discord.Client(intents=intents)
 
-print("Lancement du bot...")
-bot.run(DISCORD_BOT_TOKEN)
+# @bot.event
+# async def on_ready():
+#     print(f'Connecté en tant que {bot.user}')
+
+# @bot.event
+# async def on_message(message):
+#     if message.author == bot.user:
+#         return
+
+#     if message.content == '!taches':
+#         print("Commande !taches reçue...")
+#         tasks_list_raw = get_today_tasks()
+
+#         if isinstance(tasks_list_raw, str):
+#             embed = discord.Embed(title="❌ Erreur", description=tasks_list_raw, color=discord.Color.red())
+#             await message.channel.send(embed=embed)
+#         elif not tasks_list_raw:
+#             embed = discord.Embed(title="🎉 Aucune tâche pour aujourd'hui !", color=discord.Color.green())
+#             await message.channel.send(embed=embed)
+#         else: 
+#             tasks_sorted = _trier_taches(tasks_list_raw)
+#             embeds = _creer_embeds_par_priorite(tasks_sorted)
+#             for embed in embeds:
+#                     await message.channel.send(embed=embed)
+
+# print("Lancement du bot...")
+# bot.run(DISCORD_BOT_TOKEN)
