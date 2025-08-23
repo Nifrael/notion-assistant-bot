@@ -1,0 +1,8 @@
+# Fichier .replit
+run = "python mcp_server.py & python discord_client_mcp.py"
+
+[interpreter]
+python3 = { path = "/usr/bin/python3", version = "3.11" }
+
+[nix]
+channel = "stable-23_05"
