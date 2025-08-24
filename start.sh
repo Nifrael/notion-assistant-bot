@@ -1,11 +1,14 @@
 #!/bin/bash
-# Arrête le script si une commande échoue
 set -e
 
 echo "Lancement du serveur Gunicorn en arrière-plan..."
-# Lance le serveur web qui écoute les requêtes
 gunicorn mcp_server:app --bind 0.0.0.0:10000 &
 
-echo "Lancement du client Discord en premier plan..."
-# Lance le client qui se connecte à Discord
-python3 discord_client.py
+echo "Lancement du client Discord en mode 'relance'..."
+# La boucle 'while true' relancera le bot s'il plante
+while true
+do
+    python3 discord_client.py
+    echo "Le bot a planté. Redémarrage dans 5 secondes..."
+    sleep 5
+done
